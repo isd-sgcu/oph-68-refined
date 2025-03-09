@@ -43,6 +43,7 @@
 	},
 	"dependencies": {
 		"@tanstack/svelte-query": "^5.67.2",
-		"axios": "^1.8.2"
+		"axios": "^1.8.2",
+		"layerchart": "^1.0.7"
 	}
 }

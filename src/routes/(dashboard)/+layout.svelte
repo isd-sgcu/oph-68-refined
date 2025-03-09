@@ -12,7 +12,7 @@
 			<Sidebar.Trigger size="icon" class="p-5" />
 			<DashboardHeaderNav />
 		</header>
-		<div class="mx-2 rounded-md border p-3">
+		<div class="mx-2 p-3">
 			{@render children?.()}
 		</div>
 	</main>

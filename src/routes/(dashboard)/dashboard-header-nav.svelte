@@ -12,7 +12,7 @@
 		breadcrumbs = [
 			{
 				href: '/',
-				text: app.name
+				text: 'หน้าแรก'
 			}
 		],
 		children
