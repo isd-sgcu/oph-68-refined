@@ -2,42 +2,40 @@
  * Keep this file updated with the latest backend types
  */
 
-export enum Role {
-  Student = "student",
-  Staff = "staff",
-  Admin = "admin",
-}
-
 export interface User {
+  // Commented out fields are not passed to the frontend
+
   id: string;
-  uid: string;
-  name: string;
-  role: Role;
-  email: string;
-  phone: string;
-  birthDate?: string;
+  // uid: string;
+  // name: string;
+  role: "student" | "staff" | "admin";
+  // email: string;
+  // phone: string;
+  // birthDate?: string;
   status?: string;
-  otherStatus?: string;
+  // otherStatus?: string;
   province?: string;
-  school?: string;
+  // school?: string;
   selectedSources?: string[];
   otherSource?: string;
   firstInterest?: string;
   secondInterest?: string;
   thirdInterest?: string;
-  objective?: string;
+  // objective?: string;
   registeredAt?: string;
   lastEntered?: string;
 
   // For staff/admin only
   faculty?: string;
-  studentID?: string;
-  nickname?: string;
-  year?: number;
+  // studentID?: string;
+  // nickname?: string;
+  // year?: number;
   isCentralStaff?: boolean;
 }
 
 export interface StudentTransaction {
+  // Commented out fields are not passed to the frontend
+
   id: string;
   studentId: string;
   faculty: string;
