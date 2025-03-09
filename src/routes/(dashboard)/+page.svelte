@@ -1,2 +1,9 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+	import { app } from '$lib/constants';
+</script>
+
+<svelte:head>
+	<title>{app.titleTemplate('แดชบอร์ด')}</title>
+</svelte:head>
+
+หกฟหก
