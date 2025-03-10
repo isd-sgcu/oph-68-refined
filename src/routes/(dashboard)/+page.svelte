@@ -162,16 +162,14 @@
 	</div>
 
 	<h2>จำนวนการลงทะเบียนรายวัน</h2>
-	<Card class="w-full">
-		<div class="h-[300px] rounded p-4">
-			<AreaChart data={dateSeriesData} x="date" y="value">
-				<svelte:fragment slot="marks">
-					<LinearGradient class="from-green-600/50 to-green-600/0" vertical let:gradient>
-						<Area line={{ class: 'stroke-blue-600' }} fill={gradient} />
-						{gradient}
-					</LinearGradient>
-				</svelte:fragment>
-			</AreaChart>
-		</div>
-	</Card>
+	<div class="h-[300px] rounded p-4">
+		<AreaChart data={dateSeriesData} x="date" y="value">
+			<svelte:fragment slot="marks">
+				<LinearGradient class="from-green-600/50 to-green-600/0" vertical let:gradient>
+					<Area line={{ class: 'stroke-blue-600' }} fill={gradient} />
+				</LinearGradient>
+			</svelte:fragment>
+		</AreaChart>
+	</div>
+	<!-- <Card class="w-full"></Card> -->
 </ProseContent>
