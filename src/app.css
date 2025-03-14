@@ -4,3 +4,7 @@
 @plugin "daisyui";
 @plugin "tailwindcss-animate";
 @plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: 'Anuphan Variable', sans-serif;
+}
