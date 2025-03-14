@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '@fontsource-variable/anuphan';
 	import { app } from '$lib/constants';
 	import '../app.css';
 	let { children } = $props();

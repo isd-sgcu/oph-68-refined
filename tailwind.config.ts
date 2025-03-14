@@ -1,15 +1,40 @@
-import { fontFamily } from "tailwindcss/defaultTheme";
+import defaultTheme from "tailwindcss/defaultTheme";
 import type { Config } from "tailwindcss";
-import tailwindcssAnimate from "tailwindcss-animate";
+import colors from "tailwindcss/colors";
+import layerstack from "@layerstack/tailwind/plugin"
 
 const config: Config = {
 	darkMode: ["class"],
 	content: [
 		"./src/**/*.{html,js,svelte,ts}",
 		'./node_modules/svelte-ux/**/*.{svelte,js}',
-		'./node_modules/layerchart/**/*.{svelte,js}'
+		"./node_modules/layerchart/**/*.{svelte,js}"
 	],
 	safelist: ["dark"],
+	ux: {
+		themes: {
+			light: {
+				primary: colors['orange']['500'],
+				'primary-content': 'white',
+				secondary: colors['blue']['500'],
+				'surface-100': 'white',
+				'surface-200': colors['gray']['100'],
+				'surface-300': colors['gray']['300'],
+				'surface-content': colors['gray']['900'],
+				'color-scheme': 'light'
+			},
+			dark: {
+				primary: colors['orange']['500'],
+				'primary-content': 'white',
+				secondary: colors['blue']['500'],
+				'surface-100': colors['zinc']['800'],
+				'surface-200': colors['zinc']['900'],
+				'surface-300': colors['zinc']['950'],
+				'surface-content': colors['zinc']['100'],
+				'color-scheme': 'dark'
+			},
+		},
+	},
 	theme: {
 		container: {
 			center: true,
@@ -53,48 +78,28 @@ const config: Config = {
 					DEFAULT: "hsl(var(--card) / <alpha-value>)",
 					foreground: "hsl(var(--card-foreground) / <alpha-value>)"
 				},
-				sidebar: {
-					DEFAULT: "hsl(var(--sidebar-background))",
-					foreground: "hsl(var(--sidebar-foreground))",
-					primary: "hsl(var(--sidebar-primary))",
-					"primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-					accent: "hsl(var(--sidebar-accent))",
-					"accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-					border: "hsl(var(--sidebar-border))",
-					ring: "hsl(var(--sidebar-ring))",
+				// LayerChart tokens mapped to shadcn-svelte colors.
+				surface: {
+					content: "hsl(var(--card-foreground) / <alpha-value>)",
+					100: "hsl(var(--background) / <alpha-value>)",
+					200: "hsl(var(---muted) / <alpha-value>)",
+					// not sure what color maps here (should be darker than 200).  Could add a new color to `app.css`
+					300: "hsl(var(--background) / <alpha-value>)"
 				},
 			},
 			borderRadius: {
-				xl: "calc(var(--radius) + 4px)",
 				lg: "var(--radius)",
 				md: "calc(var(--radius) - 2px)",
 				sm: "calc(var(--radius) - 4px)"
 			},
 			fontFamily: {
-				sans: [...fontFamily.sans]
-			},
-			keyframes: {
-				"accordion-down": {
-					from: { height: "0" },
-					to: { height: "var(--bits-accordion-content-height)" },
-				},
-				"accordion-up": {
-					from: { height: "var(--bits-accordion-content-height)" },
-					to: { height: "0" },
-				},
-				"caret-blink": {
-					"0%,70%,100%": { opacity: "1" },
-					"20%,50%": { opacity: "0" },
-				},
-			},
-			animation: {
-				"accordion-down": "accordion-down 0.2s ease-out",
-				"accordion-up": "accordion-up 0.2s ease-out",
-				"caret-blink": "caret-blink 1.25s ease-out infinite",
-			},
-		},
+				sans: [...defaultTheme.fontFamily.sans]
+			}
+		}
 	},
-	plugins: [tailwindcssAnimate],
+	plugins: [
+		layerstack
+	]
 };
 
 export default config;

@@ -11,6 +11,6 @@
 	} = $props();
 </script>
 
-<div class={cn('prose', className)}>
+<div class={cn('prose dark:prose-invert prose-neutral', className)}>
 	{@render children?.()}
 </div>

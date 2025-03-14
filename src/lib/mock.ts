@@ -181,4 +181,16 @@ export const users: User[] = [
     selectedSources: ['Facebook', 'Instagram'],
     status: 'ม.ปลาย',
   },
+  {
+    id: '16',
+    role: 'student',
+    firstInterest: 'Faculty of Engineering',
+    secondInterest: 'Faculty of Science',
+    thirdInterest: 'Faculty of Medicine',
+    registeredAt: '2021-09-01T00:00:00Z',
+    lastEntered: '2021-09-01T00:00:00Z',
+    province: 'กรุงเทพมหานคร',
+    selectedSources: ['Facebook', 'Instagram'],
+    status: 'ผู้ปกครอง',
+  }
 ]
