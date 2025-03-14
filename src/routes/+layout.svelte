@@ -2,7 +2,9 @@
 	import '@fontsource-variable/anuphan';
 	import { app } from '$lib/constants';
 	import '../app.css';
-	let { children } = $props();
+	import { QueryClientProvider } from '@tanstack/svelte-query';
+
+	let { children, data } = $props();
 </script>
 
 <svelte:head>
@@ -14,4 +16,6 @@
 	<meta name="og:description" content={app.description} />
 </svelte:head>
 
-{@render children()}
+<QueryClientProvider client={data.queryClient}>
+	{@render children()}
+</QueryClientProvider>
