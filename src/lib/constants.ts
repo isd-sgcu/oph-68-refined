@@ -6,3 +6,5 @@ export const app = {
   apiBaseUrl: env.PUBLIC_API_BASE_URL ?? "http://localhost:3000",
   titleTemplate: (title: string) => `${title} | ${app.name}`,
 }
+
+export const LOCALE = 'th-TH';

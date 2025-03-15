@@ -1,16 +1,26 @@
 <script lang="ts">
+	import AppSidebar from '$lib/components/app-sidebar.svelte';
 	import { app } from '$lib/constants';
+	import PanelLeftOpenIcon from 'lucide-svelte/icons/panel-left-open';
+	import { setContext, type Snippet } from 'svelte';
+	const {
+		children,
+		breadcrumbs
+	}: {
+		children: Snippet;
+		breadcrumbs?: Snippet;
+	} = $props();
 
-	let { children } = $props();
+	// Set the sidebar toggle id to the drawer id
+	setContext('sidebar-toggle-id', 'sidebar-drawer');
 </script>
 
-<div class="navbar bg-base-100 shadow-sm">
-	<div class="flex-1">
-		<a href="/" class="btn btn-ghost text-xl">
-			{app.name}
-		</a>
+<div class="drawer lg:drawer-open">
+	<input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+
+	<div class="drawer-content">
+		{@render children?.()}
 	</div>
+
+	<AppSidebar />
 </div>
-<main class="mt-5 p-4">
-	{@render children?.()}
-</main>

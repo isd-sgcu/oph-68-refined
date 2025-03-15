@@ -2,9 +2,19 @@
 	import '@fontsource-variable/anuphan';
 	import { app } from '$lib/constants';
 	import '../app.css';
-	import { QueryClientProvider } from '@tanstack/svelte-query';
+	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
+	import { browser } from '$app/environment';
 
-	let { children, data } = $props();
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				enabled: browser,
+				queryKeyHashFn: (queryKey) => JSON.stringify(queryKey)
+			}
+		}
+	});
+
+	let { children } = $props();
 </script>
 
 <svelte:head>
@@ -16,6 +26,6 @@
 	<meta name="og:description" content={app.description} />
 </svelte:head>
 
-<QueryClientProvider client={data.queryClient}>
+<QueryClientProvider client={queryClient}>
 	{@render children()}
 </QueryClientProvider>

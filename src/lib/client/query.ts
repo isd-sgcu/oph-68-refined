@@ -1,5 +1,4 @@
 import { createQuery } from '@tanstack/svelte-query';
-import { api } from './api';
 import { users } from '$lib/mock'
 
 export const allUsersQuery = createQuery({
@@ -21,4 +20,11 @@ export const adminQuery = createQuery({
   queryFn: async () => {
     return users.filter(user => user.role === 'admin');
   },
+})
+
+export const allRegisteredStudentCountQuery = createQuery({
+  queryKey: ['users', 'count'],
+  queryFn: async () => {
+    return users.filter(user => user.role === 'student').length;
+  }
 })
