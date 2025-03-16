@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '@fontsource-variable/anuphan';
-	import { app } from '$lib/constants';
+	import { app, REFETCH_INTERVAL } from '$lib/constants';
 	import '../app.css';
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
 	import { browser } from '$app/environment';
@@ -9,7 +9,8 @@
 		defaultOptions: {
 			queries: {
 				enabled: browser,
-				queryKeyHashFn: (queryKey) => JSON.stringify(queryKey)
+				queryKeyHashFn: (queryKey) => JSON.stringify(queryKey),
+				refetchInterval: REFETCH_INTERVAL,
 			}
 		}
 	});

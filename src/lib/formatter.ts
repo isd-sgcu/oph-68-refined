@@ -23,11 +23,11 @@ export function formatMediumDateStyle(value: string | number | Date) {
   }).format(new Date(value));
 }
 
-export function formatShortTimeStyle(value: string | number | Date) {
-  return new Intl.DateTimeFormat(LOCALE, {
-    hour: 'numeric',
-    minute: 'numeric',
-  }).format(new Date(value));
+export function formatShortTimeStyle(value: string | number | Date, format: Intl.DateTimeFormatOptions = {
+  hour: 'numeric',
+  minute: 'numeric',
+}) {
+  return new Intl.DateTimeFormat(LOCALE, format).format(new Date(value));
 }
 
 export function textJoin(arr: (string | undefined)[] | undefined) {

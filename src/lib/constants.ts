@@ -9,3 +9,4 @@ export const app = {
 
 export const LOCALE = 'th-TH';
 export const SHOW_MOCK_DATA = false;
+export const REFETCH_INTERVAL = 1000 * 60 * 5; // 5 minutes

@@ -1,38 +1,37 @@
 <script lang="ts">
 	import { formatNumber, textJoin } from '$lib/formatter';
 	import type { Faculty } from '$lib/types';
-	import { BarChart } from 'layerchart';
-	import ReportSection from './report-section.svelte';
 	import {
-		Chart as ChartJS,
-		Title,
-		Tooltip,
-		Legend,
-		ArcElement,
-		CategoryScale,
-		LinearScale,
-		BarController,
-		BarElement
-	} from 'chart.js';
-	ChartJS.register(
-		Title,
-		Tooltip,
-		Legend,
-		ArcElement,
-		CategoryScale,
-		LinearScale,
-		BarController,
-		BarElement
-	);
-
-	const {
-		data = $bindable(),
-		...props
-	}: {
-		data: Faculty[] | undefined;
-	} = $props();
+		VisXYContainer,
+		VisStackedBar,
+		VisAxis,
+		VisBulletLegend,
+		VisTooltip,
+		VisXYLabels
+	} from '@unovis/svelte';
+	import { FitMode, Direction, Orientation, StackedBar } from '@unovis/ts';
+	import ReportSection from './report-section.svelte';
+	import { createQuery } from '@tanstack/svelte-query';
+	import { interestedFaculties } from '$lib/mock';
+	import { SHOW_MOCK_DATA } from '$lib/constants';
+	import { api } from '$lib/client/api';
+	import Tooltip from './tooltip.svelte';
 
 	const sumInterests = (f: Faculty) => f.first_interest + f.second_interest + f.third_interest;
+
+	const interestedFacultiesQuery = createQuery({
+		queryKey: ['interested-faculties'],
+		queryFn: async () => {
+			if (SHOW_MOCK_DATA) {
+				return Promise.resolve(interestedFaculties);
+			} else {
+				const response = await api.get<Faculty[]>('/dashboard/faculties');
+				return response.data;
+			}
+		},
+		initialData: []
+	});
+	const data = $derived($interestedFacultiesQuery.data);
 	const top3interestedFaculties = $derived(
 		data?.sort((a, b) => sumInterests(b) - sumInterests(a)).slice(0, 3)
 	);
@@ -45,68 +44,40 @@
 		data?.sort((a, b) => sumInterests(b) - sumInterests(a)) || []
 	);
 
-	let stackedMostInterestedFacultyElement: HTMLCanvasElement;
+	const chartLabels = [
+		{
+			key: 'first_interest',
+			legend: 'อันดับที่ 1',
+			tooltip: (d: Faculty) =>
+				`อันดับที่ 1: <span style="color: var(--vis-color0); font-weight: 800">${d.first_interest} คน</span>`
+		},
+		{
+			key: 'second_interest',
+			legend: 'อันดับที่ 2',
+			tooltip: (d: Faculty) =>
+				`อันดับที่ 2: <span style="color: var(--vis-color1); font-weight: 800">${d.second_interest} คน</span>`
+		},
+		{
+			key: 'third_interest',
+			legend: 'อันดับที่ 3',
+			tooltip: (d: Faculty) =>
+				`อันดับที่ 3: <span style="color: var(--vis-color2); font-weight: 800">${d.third_interest} คน</span>`
+		}
+	];
 
-	$effect(() => {
-		const datasets = [
-			{
-				label: 'อันดับที่ 1',
-				data: sortedFacultiesBySum.map((f) => f.first_interest),
-				backgroundColor: '#FF6384'
-			},
-			{
-				label: 'อันดับที่ 2',
-				data: sortedFacultiesBySum.map((f) => f.second_interest),
-				backgroundColor: '#36A2EB'
-			},
-			{
-				label: 'อันดับที่ 3',
-				data: sortedFacultiesBySum.map((f) => f.third_interest),
-				backgroundColor: '#FFCE56'
-			}
-		];
-		const stackedBar = new ChartJS(stackedMostInterestedFacultyElement, {
-			type: 'bar',
-			data: {
-				labels: sortedFacultiesBySum.map((f) => f.faculty),
-				datasets
-			},
-			options: {
-				font: {
-					family: "'Anuphan Variable', sans-serif"
-				},
-				plugins: {
-					tooltip: {
-						mode: 'index',
-						intersect: false,
-						axis: 'y',
-						callbacks: {
-							label: function (tooltipItems) {
-								return `${tooltipItems.dataset.label}: ${formatNumber(tooltipItems.parsed.x)} คน`;
-							},
-							footer: function (tooltipItems) {
-								return `รวม: ${formatNumber(tooltipItems.map((t) => t.parsed.x).reduce((p, c) => p + c, 0))} คน`;
-							}
-						}
-					}
-				},
-				indexAxis: 'y',
-				responsive: true,
-				scales: {
-					x: {
-						stacked: true
-					},
-					y: {
-						stacked: true
-					}
-				}
-			}
-		});
-		return () => stackedBar.destroy();
-	});
+	const isSmallScreen = window?.innerWidth < 768;
+	const x = (d: Faculty, i: number) => i;
+	const y = chartLabels.map((i) => (d: Faculty) => d[i.key]);
+	const tickFormat = (_, i: number) => data[i].faculty;
+
+	function tooltipTemplate(d: Faculty): string {
+		const title = `<div style="color: #666; text-align: center">${d.faculty}</div>`;
+		const stats = chartLabels.map((l) => l.tooltip(d)).join(' | ');
+		return `<div style="font-size: 12px">${title}${stats}</div>`;
+	}
 </script>
 
-{#snippet interestRankingRow(rank: string, faculty: Faculty)}
+{#snippet interestRankingRow(rank: number, faculty: Faculty)}
 	<li class="list-row">
 		<div class="text-4xl tabular-nums opacity-50">
 			{rank}
@@ -122,26 +93,44 @@
 	</li>
 {/snippet}
 
-<ReportSection header="คณะที่สนใจมากที่สุด" {...props}>
-	{#if mostFirstInterestedFaculty}
-		คณะที่ได้รับความสนใจอันดับที่ 1 คือ {top3interestedFaculties?.[0].faculty} รองลงมาคือ {textJoin(
-			top3interestedFaculties?.slice(1).map((f) => f.faculty)
-		)} ตามลำดับ โดยคณะที่มีอัตราส่วนคนเลือกอับดับที่ 1 เยอะที่สุดคือ{mostFirstInterestedFaculty?.faculty}
+<ReportSection header="คณะที่สนใจมากที่สุด" query={interestedFacultiesQuery}>
+	{#if mostFirstInterestedFaculty && top3interestedFaculties}
+		คณะที่
+		<Tooltip tip="มีจำนวนคนที่เลือกให้อยู่ในอันดับ 1-3 มากที่สุด">
+			ได้รับความสนใจอันดับที่ 1
+		</Tooltip>
+		คือ {top3interestedFaculties?.[0].faculty} ({formatNumber(
+			sumInterests(top3interestedFaculties[0])
+		)} คน) รองลงมาคือ {textJoin(top3interestedFaculties?.slice(1).map((f) => f.faculty))} ตามลำดับ โดยคณะที่มีอัตราส่วนคนเลือกอับดับที่
+		1 เยอะที่สุดคือ{mostFirstInterestedFaculty?.faculty}
 		({Math.round(
 			(mostFirstInterestedFaculty?.first_interest * 100) / sumInterests(mostFirstInterestedFaculty)
 		)}% ของผู้ที่เลือก{mostFirstInterestedFaculty?.faculty})
+		<div class="my-4">
+			<ul class="list list-col-wrap bg-base-200 rounded-box list-none shadow-md">
+				<li class="p-4 pb-2 text-xs tracking-wide opacity-60">
+					3 อันดับคณะที่ได้รับความสนใจมากที่สุด
+				</li>
+
+				{#each top3interestedFaculties as interestedFaculties, i}
+					{@render interestRankingRow(i + 1, interestedFaculties)}
+				{/each}
+			</ul>
+		</div>
+
+		<VisBulletLegend items={chartLabels.map((d) => ({ name: d.legend }))} />
+		<VisXYContainer height={isSmallScreen ? 600 : 800} yDirection={Direction.South}>
+			<VisStackedBar {data} {x} {y} orientation={Orientation.Horizontal} />
+			<VisTooltip triggers={{ [StackedBar.selectors.bar]: tooltipTemplate }} />
+			<VisAxis type="x" label="จำนวนการลงทะเบียน" />
+			<VisAxis
+				type="y"
+				tickTextWidth={isSmallScreen ? 75 : null}
+				tickTextFitMode={FitMode.Trim}
+				label={isSmallScreen ? null : 'คณะ'}
+				numTicks={data?.length}
+				{tickFormat}
+			/>
+		</VisXYContainer>
 	{/if}
-	<div class="my-4">
-		<ul class="list list-col-wrap bg-base-200 rounded-box list-none shadow-md">
-			<li class="p-4 pb-2 text-xs tracking-wide opacity-60">
-				3 อันดับคณะที่ได้รับความสนใจมากที่สุด
-			</li>
-
-			{#each top3interestedFaculties as interestedFaculties, i}
-				{@render interestRankingRow(i + 1, interestedFaculties)}
-			{/each}
-		</ul>
-	</div>
-
-	<canvas bind:this={stackedMostInterestedFacultyElement}></canvas>
 </ReportSection>

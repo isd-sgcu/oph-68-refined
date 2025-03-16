@@ -1,7 +1,10 @@
 /* @config '../tailwind.config.ts'; */
 @import 'tailwindcss';
 
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: light --default;
+}
+
 @plugin "tailwindcss-animate";
 @plugin "@tailwindcss/typography";
 
