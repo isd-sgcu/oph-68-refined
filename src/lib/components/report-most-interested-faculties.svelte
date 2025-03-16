@@ -1,6 +1,5 @@
 <script lang="ts">
 	import ReportInterestFacultyDatatable from './report-interest-faculty-datatable.svelte';
-
 	import { formatNumber, textJoin } from '$lib/formatter';
 	import type { Faculty } from '$lib/types';
 	import {
@@ -169,7 +168,7 @@
 		({Math.round(
 			(mostFirstInterestedFaculty?.first_interest * 100) / sumInterests(mostFirstInterestedFaculty)
 		)}% ของผู้ที่เลือก{mostFirstInterestedFaculty?.faculty})
-		<div class="my-4">
+		<!-- <div class="my-4">
 			<ul class="list list-col-wrap bg-base-200 rounded-box list-none shadow-md">
 				<li class="p-4 pb-0 text-xs tracking-wide opacity-60">
 					3 อันดับคณะที่ได้รับความสนใจมากที่สุด
@@ -179,9 +178,9 @@
 					{@render interestRankingRow(i + 1, interestedFaculties)}
 				{/each}
 			</ul>
-		</div>
+		</div> -->
 
-		<div class="tabs tabs-box" style="--vis-xy-label-fill-color: transparent;">
+		<div class="tabs tabs-box my-5" style="--vis-xy-label-fill-color: transparent;">
 			<label class="tab">
 				<input type="radio" name="interest_tab" />
 				ภาพรวม
