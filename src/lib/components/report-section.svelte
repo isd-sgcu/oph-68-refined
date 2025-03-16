@@ -3,13 +3,16 @@
 
 	const {
 		header = '{header}',
+		level = 'h3',
 		children
 	}: {
 		header?: string;
+		level?: string;
 		children?: Snippet;
 	} = $props();
 </script>
 
-<h2>{header}</h2>
-
-{@render children?.()}
+<section id={header.toLowerCase().replace(/\s/g, '-')}>
+	<svelte:element this={level}>{header}</svelte:element>
+	{@render children?.()}
+</section>

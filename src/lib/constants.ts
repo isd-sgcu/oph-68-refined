@@ -8,3 +8,4 @@ export const app = {
 }
 
 export const LOCALE = 'th-TH';
+export const SHOW_MOCK_DATA = false;

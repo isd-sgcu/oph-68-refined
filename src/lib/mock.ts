@@ -1,4 +1,4 @@
-import type { StudentTransaction, User } from '$lib/types'
+import type { Faculty, KnownSource, User } from '$lib/types'
 
 export const users: User[] = [
   {
@@ -192,5 +192,73 @@ export const users: User[] = [
     province: 'กรุงเทพมหานคร',
     selectedSources: ['Facebook', 'Instagram'],
     status: 'ผู้ปกครอง',
+  }
+]
+
+export const interestedFaculties: Faculty[] = [
+  {
+    "faculty": "ศิลปะ",
+    "first_interest": 6036,
+    "second_interest": 6060,
+    "third_interest": 0
+  },
+  {
+    "faculty": "แพทย์",
+    "first_interest": 5949,
+    "second_interest": 5963,
+    "third_interest": 0
+  },
+  {
+    "faculty": "วิศวะ",
+    "first_interest": 6102,
+    "second_interest": 5867,
+    "third_interest": 0
+  },
+  {
+    "faculty": "นิเทศศาสตร์",
+    "first_interest": 0,
+    "second_interest": 6065,
+    "third_interest": 0
+  },
+  {
+    "faculty": "ดนตรี",
+    "first_interest": 0,
+    "second_interest": 0,
+    "third_interest": 0
+  },
+  {
+    "faculty": "สถาปัตย์",
+    "first_interest": 0,
+    "second_interest": 6045,
+    "third_interest": 0
+  },
+  {
+    "faculty": "วิทยาศาสตร์",
+    "first_interest": 5981,
+    "second_interest": 0,
+    "third_interest": 0
+  },
+  {
+    "faculty": "เกษตร",
+    "first_interest": 0,
+    "second_interest": 0,
+    "third_interest": 0
+  },
+  {
+    "faculty": "ธุรกิจ",
+    "first_interest": 5932,
+    "second_interest": 0,
+    "third_interest": 0
+  }
+]
+
+export const mediaSources: KnownSource[] = [
+  {
+    "source": "facebook",
+    "count": 30000
+  },
+  {
+    "source": "website",
+    "count": 30000
   }
 ]

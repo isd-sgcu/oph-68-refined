@@ -22,3 +22,16 @@ export function formatMediumDateStyle(value: string | number | Date) {
     year: 'numeric',
   }).format(new Date(value));
 }
+
+export function formatShortTimeStyle(value: string | number | Date) {
+  return new Intl.DateTimeFormat(LOCALE, {
+    hour: 'numeric',
+    minute: 'numeric',
+  }).format(new Date(value));
+}
+
+export function textJoin(arr: (string | undefined)[] | undefined) {
+  if (!arr) return '';
+  const filtered = (arr || []).filter((x) => x !== undefined) as string[];
+  return new Intl.ListFormat(LOCALE, { style: 'long', type: 'conjunction' }).format(filtered);
+}

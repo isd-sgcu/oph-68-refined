@@ -41,3 +41,15 @@ export interface StudentTransaction {
   faculty: string;
   registeredAt: string;
 }
+
+export interface Faculty {
+  faculty: string;
+  first_interest: number;
+  second_interest: number;
+  third_interest: number;
+}
+
+export interface KnownSource {
+  source: string;
+  count: number;
+}
