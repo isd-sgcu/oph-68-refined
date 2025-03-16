@@ -8,6 +8,7 @@
 	import ContentWrapper from '$lib/components/content-wrapper.svelte';
 	import ReportMostInterestedFaculties from '$lib/components/report-most-interested-faculties.svelte';
 	import ReportRegistrationCount from '$lib/components/report-registration-count.svelte';
+	import { BarChart } from 'layerchart';
 </script>
 
 <svelte:head>
@@ -17,12 +18,6 @@
 <ContentWrapper>
 	<h1>ภาพรวมโดยทั่วไป</h1>
 
-	<!-- <p>
-		รายงานอย่างไม่เป็นทางการ (ข้อมูล ณ {formatMediumDateStyle(
-			$interestedFacultiesQuery.dataUpdatedAt
-		)}
-		{formatShortTimeStyle($interestedFacultiesQuery.dataUpdatedAt)} น.)
-	</p> -->
 	<ReportRegistrationCount />
 	<ReportMostInterestedFaculties />
 </ContentWrapper>

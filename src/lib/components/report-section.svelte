@@ -20,7 +20,7 @@
 	<svelte:element this={level}
 		>{header}
 		{#if $query?.isFetching}
-			<span class="loading loading-dots" transition:fade></span>
+			<span class="loading loading-dots mx-2" transition:fade></span>
 		{/if}</svelte:element
 	>
 	{@render children?.()}

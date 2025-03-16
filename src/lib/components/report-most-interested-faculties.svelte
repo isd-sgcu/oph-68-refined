@@ -41,41 +41,52 @@
 	);
 
 	const sortedFacultiesBySum = $derived(
-		data?.sort((a, b) => sumInterests(b) - sumInterests(a)) || []
+		data?.sort((a, b) => sumInterests(b) - sumInterests(a)).map((v, i) => ({ ...v, i })) || []
 	);
+
+	const lebels = {
+		first_interest: 'อันดับที่ 1',
+		second_interest: 'อันดับที่ 2',
+		third_interest: 'อันดับที่ 3'
+	};
 
 	const chartLabels = [
 		{
 			key: 'first_interest',
 			legend: 'อันดับที่ 1',
 			tooltip: (d: Faculty) =>
-				`อันดับที่ 1: <span style="color: var(--vis-color0); font-weight: 800">${d.first_interest} คน</span>`
+				`อันดับที่ 1: <span style="color: var(--vis-color0); font-weight: 800">${formatNumber(d.first_interest)} คน</span>`
 		},
 		{
 			key: 'second_interest',
 			legend: 'อันดับที่ 2',
 			tooltip: (d: Faculty) =>
-				`อันดับที่ 2: <span style="color: var(--vis-color1); font-weight: 800">${d.second_interest} คน</span>`
+				`อันดับที่ 2: <span style="color: var(--vis-color1); font-weight: 800">${formatNumber(d.second_interest)} คน</span>`
 		},
 		{
 			key: 'third_interest',
 			legend: 'อันดับที่ 3',
 			tooltip: (d: Faculty) =>
-				`อันดับที่ 3: <span style="color: var(--vis-color2); font-weight: 800">${d.third_interest} คน</span>`
+				`อันดับที่ 3: <span style="color: var(--vis-color2); font-weight: 800">${formatNumber(d.third_interest)} คน</span>`
 		}
 	];
 
-	const isSmallScreen = window?.innerWidth < 768;
+	let clientWidth = $state(0);
+	const isSmallScreen = $derived(clientWidth < 768);
+
 	const x = (d: Faculty, i: number) => i;
 	const y = chartLabels.map((i) => (d: Faculty) => d[i.key]);
 	const tickFormat = (_, i: number) => data[i].faculty;
 
 	function tooltipTemplate(d: Faculty): string {
-		const title = `<div style="color: #666; text-align: center">${d.faculty}</div>`;
-		const stats = chartLabels.map((l) => l.tooltip(d)).join(' | ');
-		return `<div style="font-size: 12px">${title}${stats}</div>`;
+		const title = `<div style="color: #666; font-weight: bold;">${d.faculty}</div>`;
+		const total = `<div style="font-size: 12px; font-weight: bold;">รวม ${formatNumber(sumInterests(d))} คน</div>`;
+		const stats = chartLabels.map((l) => l.tooltip(d)).join('<br/>');
+		return `<div style="font-size: 12px">${title}${stats}${total}</div>`;
 	}
 </script>
+
+<svelte:window bind:innerWidth={clientWidth} />
 
 {#snippet interestRankingRow(rank: number, faculty: Faculty)}
 	<li class="list-row">
@@ -108,7 +119,7 @@
 		)}% ของผู้ที่เลือก{mostFirstInterestedFaculty?.faculty})
 		<div class="my-4">
 			<ul class="list list-col-wrap bg-base-200 rounded-box list-none shadow-md">
-				<li class="p-4 pb-2 text-xs tracking-wide opacity-60">
+				<li class="p-4 pb-0 text-xs tracking-wide opacity-60">
 					3 อันดับคณะที่ได้รับความสนใจมากที่สุด
 				</li>
 
@@ -119,18 +130,40 @@
 		</div>
 
 		<VisBulletLegend items={chartLabels.map((d) => ({ name: d.legend }))} />
-		<VisXYContainer height={isSmallScreen ? 600 : 800} yDirection={Direction.South}>
-			<VisStackedBar {data} {x} {y} orientation={Orientation.Horizontal} />
-			<VisTooltip triggers={{ [StackedBar.selectors.bar]: tooltipTemplate }} />
-			<VisAxis type="x" label="จำนวนการลงทะเบียน" />
-			<VisAxis
-				type="y"
-				tickTextWidth={isSmallScreen ? 75 : null}
-				tickTextFitMode={FitMode.Trim}
-				label={isSmallScreen ? null : 'คณะ'}
-				numTicks={data?.length}
-				{tickFormat}
-			/>
-		</VisXYContainer>
+		{#key data}
+			<div style="--vis-xy-label-fill-color: transparent;">
+				<VisXYContainer height={1200} yDirection={Direction.South}>
+					<VisStackedBar data={sortedFacultiesBySum} {x} {y} orientation={Orientation.Horizontal} />
+					<VisXYLabels
+						data={sortedFacultiesBySum}
+						x={(d) => d.first_interest / 2}
+						y={(d) => d.i}
+						label={(d) => formatNumber(d.first_interest)}
+					/>
+					<VisXYLabels
+						data={sortedFacultiesBySum}
+						x={(d) => d.first_interest + d.second_interest / 2}
+						y={(d) => d.i}
+						label={(d) => formatNumber(d.second_interest)}
+					/>
+					<VisXYLabels
+						data={sortedFacultiesBySum}
+						x={(d) => d.first_interest + d.second_interest + d.third_interest / 2}
+						y={(d) => d.i}
+						label={(d) => formatNumber(d.third_interest)}
+					/>
+					<VisTooltip triggers={{ [StackedBar.selectors.bar]: tooltipTemplate }} />
+					<VisAxis type="x" label="จำนวนการลงทะเบียน" />
+					<VisAxis
+						type="y"
+						tickTextWidth={null}
+						tickTextFitMode={FitMode.Trim}
+						label={isSmallScreen ? null : 'คณะ'}
+						numTicks={data?.length}
+						{tickFormat}
+					/>
+				</VisXYContainer>
+			</div>
+		{/key}
 	{/if}
 </ReportSection>

@@ -5,6 +5,7 @@
 	import { interestedFaculties } from '$lib/mock';
 	import type { Faculty } from '$lib/types';
 	import { createQuery, onlineManager } from '@tanstack/svelte-query';
+	import TicketCheck from 'lucide-svelte/icons/ticket-check';
 
 	const interestedFacultiesQuery = createQuery({
 		queryKey: ['interested-faculties'],
@@ -25,12 +26,15 @@
 	);
 </script>
 
-<div class="stats bg-base-100 border-base-300 border">
+<div class="stats bg-base-200 border-base-300 border">
 	<div class="stat">
+		<div class="stat-figure text-secondary">
+			<TicketCheck class="size-8" />
+		</div>
 		<div class="stat-title">
 			จำนวนการลงทะเบียนปัจจุบัน
 			{#if $interestedFacultiesQuery.isFetching}
-				<span class="loading loading-dots"></span>
+				<span class="loading loading-dots mx-1"></span>
 			{/if}
 		</div>
 		<div class="stat-value">
