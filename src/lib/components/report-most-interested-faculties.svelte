@@ -1,4 +1,6 @@
 <script lang="ts">
+	import ReportInterestFacultyDatatable from './report-interest-faculty-datatable.svelte';
+
 	import { formatNumber, textJoin } from '$lib/formatter';
 	import type { Faculty } from '$lib/types';
 	import {
@@ -224,14 +226,7 @@
 			</div>
 
 			<label class="tab">
-				<input
-					type="radio"
-					value="rank1"
-					name="interest_tab"
-					class="tab"
-					aria-label="อันดับ 1"
-					checked
-				/>
+				<input type="radio" value="rank1" name="interest_tab" class="tab" aria-label="อันดับ 1" />
 				อันดับ 1
 			</label>
 			<div class="tab-content bg-base-100 p-6">
@@ -255,9 +250,12 @@
 			</div>
 
 			<label class="tab">
-				<input type="radio" name="interest_tab" class="tab" aria-label="ตาราง" />
+				<input type="radio" name="interest_tab" class="tab" aria-label="ตาราง" checked />
 				ตาราง
 			</label>
+			<div class="tab-content bg-base-100 p-6">
+				<ReportInterestFacultyDatatable {sortedFacultiesBySum} />
+			</div>
 		</div>
 	{/if}
 </ReportSection>
