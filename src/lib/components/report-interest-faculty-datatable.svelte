@@ -30,7 +30,7 @@
 		const url = URL.createObjectURL(blob);
 		const a = document.createElement('a');
 		a.href = url;
-		a.download = `${app.slugName}-interest-faculty.csv`;
+		a.download = `${app.slugName}-interest-faculty-${new Date().toISOString()}.csv`;
 		a.click();
 		URL.revokeObjectURL(url);
 	}

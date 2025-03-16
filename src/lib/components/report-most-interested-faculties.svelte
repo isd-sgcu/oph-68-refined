@@ -182,7 +182,7 @@
 
 		<div class="tabs tabs-box my-5" style="--vis-xy-label-fill-color: transparent;">
 			<label class="tab">
-				<input type="radio" name="interest_tab" />
+				<input type="radio" name="interest_tab" checked />
 				ภาพรวม
 			</label>
 			<div class="tab-content bg-base-100 p-6">
@@ -249,7 +249,7 @@
 			</div>
 
 			<label class="tab">
-				<input type="radio" name="interest_tab" class="tab" aria-label="ตาราง" checked />
+				<input type="radio" name="interest_tab" class="tab" aria-label="ตาราง" />
 				ตาราง
 			</label>
 			<div class="tab-content bg-base-100 p-6">
