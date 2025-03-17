@@ -180,7 +180,7 @@
 			</ul>
 		</div> -->
 
-		<div class="tabs tabs-box my-5" style="--vis-xy-label-fill-color: transparent;">
+		<div class="tabs tabs-box my-5 [&>.tab-content]:rounded-sm" style="--vis-xy-label-fill-color: transparent;">
 			<label class="tab">
 				<input type="radio" name="interest_tab" checked />
 				ภาพรวม

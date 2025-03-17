@@ -77,7 +77,7 @@
 		)}
 	</p>
 
-	<div class="tabs tabs-box my-5">
+	<div class="tabs tabs-box my-5 [&>.tab-content]:rounded-sm">
 		<label for="tab" class="tab">
 			<input type="radio" name="tab" id="tab" checked />
 			กราฟ
