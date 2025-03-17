@@ -4,7 +4,7 @@
 	import PanelLeftOpenIcon from 'lucide-svelte/icons/panel-left-open';
 	import { setContext, type Snippet } from 'svelte';
 	const {
-		children,
+		children
 	}: {
 		children: Snippet;
 	} = $props();

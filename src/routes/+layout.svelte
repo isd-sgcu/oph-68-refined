@@ -10,7 +10,7 @@
 			queries: {
 				enabled: browser,
 				queryKeyHashFn: (queryKey) => JSON.stringify(queryKey),
-				refetchInterval: REFETCH_INTERVAL,
+				refetchInterval: REFETCH_INTERVAL
 			}
 		}
 	});

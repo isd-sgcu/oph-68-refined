@@ -7,7 +7,7 @@ import { LOCALE } from './constants';
  * @returns formatted number
  */
 export function formatNumber(value: number, options?: Intl.NumberFormatOptions) {
-  return new Intl.NumberFormat(LOCALE, options).format(value);
+	return new Intl.NumberFormat(LOCALE, options).format(value);
 }
 
 /**
@@ -16,22 +16,25 @@ export function formatNumber(value: number, options?: Intl.NumberFormatOptions) 
  * @returns formatted date
  */
 export function formatMediumDateStyle(value: string | number | Date) {
-  return new Intl.DateTimeFormat(LOCALE, {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  }).format(new Date(value));
+	return new Intl.DateTimeFormat(LOCALE, {
+		day: 'numeric',
+		month: 'short',
+		year: 'numeric'
+	}).format(new Date(value));
 }
 
-export function formatShortTimeStyle(value: string | number | Date, format: Intl.DateTimeFormatOptions = {
-  hour: 'numeric',
-  minute: 'numeric',
-}) {
-  return new Intl.DateTimeFormat(LOCALE, format).format(new Date(value));
+export function formatShortTimeStyle(
+	value: string | number | Date,
+	format: Intl.DateTimeFormatOptions = {
+		hour: 'numeric',
+		minute: 'numeric'
+	}
+) {
+	return new Intl.DateTimeFormat(LOCALE, format).format(new Date(value));
 }
 
 export function textJoin(arr: (string | undefined)[] | undefined) {
-  if (!arr) return '';
-  const filtered = (arr || []).filter((x) => x !== undefined) as string[];
-  return new Intl.ListFormat(LOCALE, { style: 'long', type: 'conjunction' }).format(filtered);
+	if (!arr) return '';
+	const filtered = (arr || []).filter((x) => x !== undefined) as string[];
+	return new Intl.ListFormat(LOCALE, { style: 'long', type: 'conjunction' }).format(filtered);
 }

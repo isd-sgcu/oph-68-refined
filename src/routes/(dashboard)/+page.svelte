@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { app } from '$lib/constants';
+
 	import ContentWrapper from '$lib/components/content-wrapper.svelte';
 	import ReportMostInterestedFaculties from '$lib/components/report-most-interested-faculties.svelte';
 	import ReportRegistrationCount from '$lib/components/report-registration-count.svelte';
+	import ReportReferralSource from '$lib/components/report-referral-source.svelte';
 </script>
 
 <svelte:head>
@@ -14,4 +16,5 @@
 
 	<ReportRegistrationCount />
 	<ReportMostInterestedFaculties />
+	<ReportReferralSource />
 </ContentWrapper>
