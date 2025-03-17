@@ -5,10 +5,8 @@
 	import { setContext, type Snippet } from 'svelte';
 	const {
 		children,
-		breadcrumbs
 	}: {
 		children: Snippet;
-		breadcrumbs?: Snippet;
 	} = $props();
 
 	// Set the sidebar toggle id to the drawer id
