@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ReportInterestFacultyDatatable from './report-interest-faculty-datatable.svelte';
+	import ReportInterestFacultyDatatable from './report-most-interested-faculties-datatable.svelte';
 	import { formatNumber, textJoin } from '$lib/formatter';
 	import type { Faculty } from '$lib/types';
 	import {
@@ -17,6 +17,8 @@
 	import { SHOW_MOCK_DATA } from '$lib/constants';
 	import { api } from '$lib/client/api';
 	import Tooltip from './tooltip.svelte';
+	import Tabs from './tabs/tabs.svelte';
+	import TabContent from './tabs/tab-content.svelte';
 
 	const sumInterests = (f: Faculty) => f.first_interest + f.second_interest + f.third_interest;
 
@@ -29,12 +31,11 @@
 				const response = await api.get<Faculty[]>('/dashboard/faculties');
 				return response.data;
 			}
-		},
-		initialData: []
+		}
 	});
 	const data = $derived($interestedFacultiesQuery.data);
 	const top3interestedFaculties = $derived(
-		data?.sort((a, b) => sumInterests(b) - sumInterests(a)).slice(0, 3)
+		data?.sort((a, b) => sumInterests(b) - sumInterests(a)).slice(0, 3) || []
 	);
 
 	const mostFirstInterestedFaculty = $derived(
@@ -145,7 +146,11 @@
 				[StackedBar.selectors.bar]: tooltipIndividual
 			}}
 		/>
-		<VisAxis type="x" tickFormat={(d) => formatNumber(d)} label="จำนวนการลงทะเบียน{labels[column]}" />
+		<VisAxis
+			type="x"
+			tickFormat={(d) => formatNumber(d)}
+			label="จำนวนการลงทะเบียน{labels[column]}"
+		/>
 		<VisAxis
 			type="y"
 			tickTextWidth={null}
@@ -159,105 +164,72 @@
 
 <ReportSection header="คณะที่สนใจมากที่สุด" query={interestedFacultiesQuery}>
 	{#if mostFirstInterestedFaculty && top3interestedFaculties}
-		คณะที่<Tooltip tip="มีจำนวนคนที่เลือกให้อยู่ในอันดับ 1-3 มากที่สุด">
-			ได้รับความสนใจอันดับที่ 1
-		</Tooltip> คือ {top3interestedFaculties?.[0].faculty} ({formatNumber(
-			sumInterests(top3interestedFaculties[0])
-		)} คน) รองลงมาคือ {textJoin(top3interestedFaculties?.slice(1).map((f) => f.faculty))} ตามลำดับ โดยคณะที่มีอัตราส่วนคนเลือกอับดับที่
-		1 เยอะที่สุดคือ{mostFirstInterestedFaculty?.faculty}
-		({Math.round(
-			(mostFirstInterestedFaculty?.first_interest * 100) / sumInterests(mostFirstInterestedFaculty)
-		)}% ของผู้ที่เลือก{mostFirstInterestedFaculty?.faculty})
-		<!-- <div class="my-4">
-			<ul class="list list-col-wrap bg-base-200 rounded-box list-none shadow-md">
-				<li class="p-4 pb-0 text-xs tracking-wide opacity-60">
-					3 อันดับคณะที่ได้รับความสนใจมากที่สุด
-				</li>
-
-				{#each top3interestedFaculties as interestedFaculties, i}
-					{@render interestRankingRow(i + 1, interestedFaculties)}
-				{/each}
-			</ul>
-		</div> -->
-
-		<div
-			class="tabs tabs-box my-5 [&>.tab-content]:rounded-sm"
-			style="--vis-xy-label-fill-color: transparent;"
-		>
-			<label class="tab">
-				<input type="radio" name="interest_tab" checked />
-				ภาพรวม
-			</label>
-			<div class="tab-content bg-base-100 p-6">
-				<div class="flex flex-col items-end">
-					<VisBulletLegend items={chartLabels.map((d) => ({ name: d.legend }))} />
-				</div>
-				<!-- {#key sortedFacultiesBySum} -->
-				<VisXYContainer height={1200} yDirection={Direction.South}>
-					<VisStackedBar data={sortedFacultiesBySum} {x} {y} orientation={Orientation.Horizontal} />
-					<VisXYLabels
-						data={sortedFacultiesBySum}
-						x={(d) => d.first_interest / 2}
-						y={(d) => d.i}
-						label={(d) => formatNumber(d.first_interest)}
-					/>
-					<VisXYLabels
-						data={sortedFacultiesBySum}
-						x={(d) => d.first_interest + d.second_interest / 2}
-						y={(d) => d.i}
-						label={(d) => formatNumber(d.second_interest)}
-					/>
-					<VisXYLabels
-						data={sortedFacultiesBySum}
-						x={(d) => d.first_interest + d.second_interest + d.third_interest / 2}
-						y={(d) => d.i}
-						label={(d) => formatNumber(d.third_interest)}
-					/>
-					<VisTooltip triggers={{ [StackedBar.selectors.bar]: tooltipTemplate }} />
-					<VisAxis type="x" tickFormat={(d) => formatNumber(d)} label="จำนวนการลงทะเบียน" />
-					<VisAxis
-						type="y"
-						tickTextWidth={null}
-						tickTextFitMode={FitMode.Trim}
-						label={isSmallScreen ? null : 'คณะ'}
-						numTicks={sortedFacultiesBySum?.length}
-						{tickFormat}
-					/>
-				</VisXYContainer>
-				<!-- {/key} -->
-			</div>
-
-			<label class="tab">
-				<input type="radio" value="rank1" name="interest_tab" class="tab" aria-label="อันดับ 1" />
-				อันดับ 1
-			</label>
-			<div class="tab-content bg-base-100 p-6">
-				{@render rankingGraph(sortedFacultiesBySum, 'first_interest')}
-			</div>
-
-			<label class="tab">
-				<input type="radio" value="rank2" name="interest_tab" class="tab" aria-label="อันดับ 2" />
-				อันดับ 2
-			</label>
-			<div class="tab-content bg-base-100 p-6">
-				{@render rankingGraph(sortedFacultiesBySum, 'second_interest')}
-			</div>
-
-			<label class="tab">
-				<input type="radio" value="rank3" name="interest_tab" class="tab" aria-label="อันดับ 3" />
-				อันดับ 3
-			</label>
-			<div class="tab-content bg-base-100 p-6">
-				{@render rankingGraph(sortedFacultiesBySum, 'third_interest')}
-			</div>
-
-			<label class="tab">
-				<input type="radio" name="interest_tab" class="tab" aria-label="ตาราง" />
-				ตาราง
-			</label>
-			<div class="tab-content bg-base-100 p-6">
-				<ReportInterestFacultyDatatable {sortedFacultiesBySum} />
-			</div>
-		</div>
+		<p>
+			คณะที่<Tooltip tip="มีจำนวนคนที่เลือกให้อยู่ในอันดับ 1-3 มากที่สุด">
+				ได้รับความสนใจอันดับที่ 1
+			</Tooltip> คือ {top3interestedFaculties?.[0].faculty} ({formatNumber(
+				sumInterests(top3interestedFaculties[0])
+			)} คน) รองลงมาคือ {textJoin(top3interestedFaculties?.slice(1).map((f) => f.faculty))} ตามลำดับ
+			โดยคณะที่มีอัตราส่วนคนเลือกอับดับที่ 1 เยอะที่สุดคือ{mostFirstInterestedFaculty?.faculty}
+			({Math.round(
+				(mostFirstInterestedFaculty?.first_interest * 100) /
+					sumInterests(mostFirstInterestedFaculty)
+			)}% ของผู้ที่เลือก{mostFirstInterestedFaculty?.faculty})
+		</p>
 	{/if}
+
+	<Tabs>
+		<TabContent label="ภาพรวม" selected>
+			<div class="flex flex-col items-end">
+				<VisBulletLegend items={chartLabels.map((d) => ({ name: d.legend }))} />
+			</div>
+			<VisXYContainer height={1200} yDirection={Direction.South}>
+				<VisStackedBar data={sortedFacultiesBySum} {x} {y} orientation={Orientation.Horizontal} />
+				<VisXYLabels
+					data={sortedFacultiesBySum}
+					x={(d) => d.first_interest / 2}
+					y={(d) => d.i}
+					label={(d) => formatNumber(d.first_interest)}
+				/>
+				<VisXYLabels
+					data={sortedFacultiesBySum}
+					x={(d) => d.first_interest + d.second_interest / 2}
+					y={(d) => d.i}
+					label={(d) => formatNumber(d.second_interest)}
+				/>
+				<VisXYLabels
+					data={sortedFacultiesBySum}
+					x={(d) => d.first_interest + d.second_interest + d.third_interest / 2}
+					y={(d) => d.i}
+					label={(d) => formatNumber(d.third_interest)}
+				/>
+				<VisTooltip triggers={{ [StackedBar.selectors.bar]: tooltipTemplate }} />
+				<VisAxis type="x" tickFormat={(d) => formatNumber(d)} label="จำนวนการลงทะเบียน" />
+				<VisAxis
+					type="y"
+					tickTextWidth={null}
+					tickTextFitMode={FitMode.Trim}
+					label={isSmallScreen ? null : 'คณะ'}
+					numTicks={sortedFacultiesBySum?.length}
+					{tickFormat}
+				/>
+			</VisXYContainer>
+		</TabContent>
+
+		<TabContent label="อันดับ 1">
+			{@render rankingGraph(sortedFacultiesBySum, 'first_interest')}
+		</TabContent>
+
+		<TabContent label="อันดับ 2">
+			{@render rankingGraph(sortedFacultiesBySum, 'second_interest')}
+		</TabContent>
+
+		<TabContent label="อันดับ 3">
+			{@render rankingGraph(sortedFacultiesBySum, 'third_interest')}
+		</TabContent>
+
+		<TabContent label="ตาราง">
+			<ReportInterestFacultyDatatable {sortedFacultiesBySum} />
+		</TabContent>
+	</Tabs>
 </ReportSection>

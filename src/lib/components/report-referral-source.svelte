@@ -19,6 +19,8 @@
 	import { app, SHOW_MOCK_DATA } from '$lib/constants';
 	import { mediaSources } from '$lib/mock';
 	import DownloadIcon from 'lucide-svelte/icons/download';
+	import Tabs from './tabs/tabs.svelte';
+	import TabContent from './tabs/tab-content.svelte';
 
 	const sourcesQuery = createQuery({
 		queryKey: ['media-sources'],
@@ -77,12 +79,8 @@
 			)}
 		</p>
 
-		<div class="tabs tabs-box my-5 [&>.tab-content]:rounded-sm">
-			<label for="tab" class="tab">
-				<input type="radio" name="tab" id="tab" checked />
-				กราฟ
-			</label>
-			<div class="tab-content bg-base-100 p-6">
+		<Tabs>
+			<TabContent label="กราฟ" selected>
 				<VisXYContainer {data}>
 					<VisTooltip
 						triggers={{
@@ -105,13 +103,9 @@
 						label={(d) => formatNumber(d.count)}
 					/>
 				</VisXYContainer>
-			</div>
+			</TabContent>
 
-			<label class="tab" for="tab2">
-				<input type="radio" name="tab" id="tab2" />
-				ตาราง
-			</label>
-			<div class="tab-content bg-base-100 p-6">
+			<TabContent label="ตาราง">
 				<div class="mb-4 flex justify-end">
 					<button class="btn btn-sm" onclick={exportToCsv}>
 						<DownloadIcon class="size-4" />
@@ -136,7 +130,7 @@
 						{/each}
 					</tbody>
 				</table>
-			</div>
-		</div>
+			</TabContent>
+		</Tabs>
 	{/if}
 </ReportSection>

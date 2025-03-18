@@ -36,13 +36,14 @@
 	}
 </script>
 
+<div class="mb-4 flex justify-end">
+	<button class="btn btn-sm" onclick={exportToCsv}>
+		<DownloadIcon class="size-4" />
+		ดาวน์โหลดเป็น CSV</button
+	>
+</div>
+
 <div class="overflow-x-auto">
-	<div class="mb-4 flex justify-end">
-		<button class="btn btn-sm" onclick={exportToCsv}>
-			<DownloadIcon class="size-4" />
-			ดาวน์โหลดเป็น CSV</button
-		>
-	</div>
 	<table class="mt-0 table w-full">
 		<thead>
 			<tr>
