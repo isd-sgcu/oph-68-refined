@@ -1,7 +1,7 @@
 export const app = {
-	name: 'CU Openhouse 2025',
+	name: 'CU Openhouse 2025 Dashboard',
 	slugName: 'cuopenhouse25',
-	description: "A project to refine the CU Openhouse 2025 project's data",
+	description: "แดชบอร์ดแสดงข้อมูลสำหรับงาน CU Openhouse 2025",
 	apiBaseUrl: 'https://api.cuopenhouse2025.com/api/',
 	titleTemplate: (title: string) => `${title} | ${app.name}`
 };
