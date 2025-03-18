@@ -1,15 +1,19 @@
 <script lang="ts">
 	import { api } from '$lib/client/api';
+	import ContentWrapper from '$lib/components/content-wrapper.svelte';
 	import ReportSection from '$lib/components/report-section.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import type { KnownSource } from '$lib/types';
 	import { formatNumber, textJoin } from '$lib/formatter';
 	import {
 		VisXYContainer,
+		VisGroupedBar,
 		VisStackedBar,
 		VisAxis,
 		VisXYLabels,
 		VisTooltip,
+		VisSingleContainer,
+		VisDonut
 	} from '@unovis/svelte';
 	import { StackedBar } from '@unovis/ts';
 	import { app, SHOW_MOCK_DATA } from '$lib/constants';
@@ -48,6 +52,7 @@
 			.slice(0, 3) || []
 	);
 	const data = $derived($sourcesQuery.data?.map((d, index) => ({ ...d, index })) || []);
+	const totalSum = $derived(data.reduce((acc, d) => acc + d.count, 0));
 
 	const x = (d: KnownSource & { index: number }) => d.index;
 	const y = [(d: KnownSource) => d.count];
@@ -70,8 +75,8 @@
 <ReportSection header="แหล่งข่าวสารเกี่ยวกับงาน" level="h2" query={sourcesQuery}>
 	{#if data && top3sources}
 		<p>
-			ผุ้ที่ลงทะเบียนได้รับข่าวสารมากที่สุดจาก {textJoin(
-				top3sources.map((s) => `${s.source} (${formatNumber(s.count)} คน)`)
+			ผู้ที่ลงทะเบียนได้รับข่าวสารมากที่สุดจาก {textJoin(
+				top3sources.map((s) => `${s.source} (${formatNumber(s.count)} คน; ${((s.count / totalSum) * 100).toFixed(2)}%)`),
 			)}
 		</p>
 
@@ -111,19 +116,24 @@
 				<table class="mt-0 table w-full">
 					<thead>
 						<tr>
-							<th>ลำดับ</th>
 							<th>แหล่งข่าวสาร</th>
 							<th class="text-end">จำนวนคน</th>
+							<th class="text-end">สัดส่วน</th>
 						</tr>
 					</thead>
 					<tbody>
 						{#each data as source, i}
 							<tr>
-								<td>{i + 1}</td>
 								<td>{source.source}</td>
 								<td class="text-end">{formatNumber(source.count)}</td>
+								<td class="text-end">{((source.count / totalSum) * 100).toFixed(2)}%</td>
 							</tr>
 						{/each}
+						<tr>
+							<td class="text-end">รวม</td>
+							<td class="text-end">{formatNumber(totalSum)}</td>
+							<td class="text-end">100%</td>
+						</tr>
 					</tbody>
 				</table>
 			</TabContent>

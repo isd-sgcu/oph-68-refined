@@ -20,5 +20,5 @@
 		{@render children?.()}
 	</div>
 
-	<!-- <AppSidebar /> -->
+	<AppSidebar />
 </div>

@@ -24,8 +24,10 @@
 	style="--vis-xy-label-fill-color: transparent"
 	{...props}
 >
-	<svelte:element this={level} class="flex flex-row"
-		>{header}
+	<svelte:element this={level} class="flex flex-row items-center">
+		<a href="#{header.toLowerCase().replace(/\s/g, '-')}" class="no-underline hover:underline">
+			{header}
+		</a>
 		{#if $query?.isFetching}
 			<span class="loading loading-dots loading-sm mx-2 leading-0" transition:fade></span>
 		{/if}</svelte:element

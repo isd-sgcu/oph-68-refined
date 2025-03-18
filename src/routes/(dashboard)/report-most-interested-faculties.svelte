@@ -46,6 +46,8 @@
 		data?.sort((a, b) => sumInterests(b) - sumInterests(a)).map((v, i) => ({ ...v, i })) || []
 	);
 
+	let showPercentage = $state(false);
+
 	const labels = {
 		first_interest: 'อันดับที่ 1',
 		second_interest: 'อันดับที่ 2',
@@ -146,7 +148,7 @@
 	</VisXYContainer>
 {/snippet}
 
-<ReportSection header="คณะที่สนใจมากที่สุด" query={interestedFacultiesQuery}>
+<ReportSection header="คณะที่ได้รับความสนใจมากที่สุด" query={interestedFacultiesQuery}>
 	{#if mostFirstInterestedFaculty && top3interestedFaculties}
 		<p>
 			คณะที่<Tooltip tip="มีจำนวนคนที่เลือกให้อยู่ในอันดับ 1-3 มากที่สุด">

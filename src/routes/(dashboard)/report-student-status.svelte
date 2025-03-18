@@ -27,6 +27,7 @@
 		มัธยมศึกษาตอนต้น: 'ม.ต้น',
 		มัธยมศึกษาตอนปลาย: 'ม.ปลาย'
 	});
+	const totalSum = $derived(data.reduce((acc, d) => acc + d.count, 0));
 
 	function exportToCsv() {
 		const csv = [['status', 'count'], ...data.map((d, i) => [d.status, d.count])]
@@ -45,9 +46,21 @@
 
 <ReportSection
 	query={studentStatusQuery}
-	header="ระดับการศึกษา"
+	header="สถานภาพผู้เข้าร่วมงาน"
 	style="--vis-xy-label-fill-color: var(--vis-color0)"
 >
+	<p>
+		ผู้เข้าร่วมงานส่วนใหญ่เป็น{data[0].status} ({formatNumber(data[0].count)} คน; {(
+			(data[0].count / totalSum) *
+			100
+		).toFixed(2)}%) ตามด้วย{data[1].status} ({formatNumber(data[1].count)} คน; {(
+			(data[1].count / totalSum) *
+			100
+		).toFixed(2)}%) และ{data[2].status} ({formatNumber(data[2].count)} คน; {(
+			(data[2].count / totalSum) *
+			100
+		).toFixed(2)}%) ตามลำดับ
+	</p>
 	<Tabs>
 		<TabContent label="กราฟ" selected>
 			<VisXYContainer {data}>
@@ -81,20 +94,27 @@
 				>
 			</div>
 			<div class="overflow-x-auto">
-				<table class="table-compact table-striped table">
+				<table class="table-striped table">
 					<thead>
 						<tr>
 							<th>สถานภาพ</th>
-							<th>จำนวน</th>
+							<th class="text-end">จำนวน</th>
+							<th class="text-end">สัดส่วน</th>
 						</tr>
 					</thead>
 					<tbody>
 						{#each data as { status, count }, index}
 							<tr>
 								<td>{renamer(status)}</td>
-								<td>{formatNumber(count)}</td>
+								<td class="text-end">{formatNumber(count)}</td>
+								<td class="text-end">{((count / totalSum) * 100).toFixed(2)}%</td>
 							</tr>
 						{/each}
+						<tr>
+							<td class="text-end">รวม</td>
+							<td class="text-end">{formatNumber(totalSum)}</td>
+							<td class="text-end">100%</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
