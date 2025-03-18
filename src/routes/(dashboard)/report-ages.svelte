@@ -17,6 +17,34 @@
 	});
 
 	const data = $derived($agesQuery.data?.map((d, index) => ({ ...d, index })) || []);
+	const averageAge = $derived(() => {
+		const total = data.reduce((acc, { age, count }) => acc + age * count, 0);
+		const count = data.reduce((acc, { count }) => acc + count, 0);
+		return total / count;
+	});
+	const medianAge = $derived(() => {
+		const count = data.reduce((acc, { count }) => acc + count, 0);
+		const half = count / 2;
+		let sum = 0;
+		for (const { age, count } of data) {
+			sum += count;
+			if (sum >= half) {
+				return age;
+			}
+		}
+		return null;
+	});
+	const modeAge = $derived(() => {
+		const maxCount = Math.max(...data.map(({ count }) => count));
+		const mode = data.find(({ count }) => count === maxCount);
+		return mode?.age;
+	});
+	const standardDeviation = $derived(() => {
+		const mean = averageAge();
+		const total = data.reduce((acc, { age, count }) => acc + count * (age - mean) ** 2, 0);
+		const count = data.reduce((acc, { count }) => acc + count, 0);
+		return Math.sqrt(total / count);
+	});
 
 	const x = $derived((d: AgeGroup, i: number) => i);
 	const y = $derived([(d: AgeGroup) => d.count]);
@@ -41,6 +69,10 @@
 	header="อายุผู้เข้าร่วมงาน"
 	style="--vis-xy-label-fill-color: var(--vis-color0);"
 >
+	<p>
+		ผู้เข้าร่วมงานมีอายุเฉลี่ยประมาณ {averageAge().toFixed(1)} ปี อายุที่มางานมากที่สุดคือ {modeAge()}
+		ปี และมีมัธยฐานประมาณ {medianAge()} ปี โดยมีความแปรปรวนประมาณ {standardDeviation().toFixed(1)}
+	</p>
 	<Tabs>
 		<TabContent label="กราฟ" selected>
 			<VisXYContainer height={2000} {data} yDirection={Direction.South}>
