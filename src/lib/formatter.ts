@@ -38,3 +38,7 @@ export function textJoin(arr: (string | undefined)[] | undefined) {
 	const filtered = (arr || []).filter((x) => x !== undefined) as string[];
 	return new Intl.ListFormat(LOCALE, { style: 'long', type: 'conjunction' }).format(filtered);
 }
+
+export function renamerFactory(renameDict: Record<string, string>) {
+	return (key: string) => key in renameDict ? renameDict[key] : key;
+}

@@ -53,3 +53,13 @@ export interface KnownSource {
 	source: string;
 	count: number;
 }
+
+export interface StudentStatus {
+	status: string;
+	count: number;
+}
+
+export interface AgeGroup {
+	age: number;
+	count: number;
+}

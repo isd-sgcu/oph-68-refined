@@ -9,7 +9,8 @@
 		header = '{header}',
 		level = 'h2',
 		query,
-		children
+		children,
+		...props
 	}: {
 		header?: string;
 		level?: string;
@@ -18,7 +19,11 @@
 	} = $props();
 </script>
 
-<section id={header.toLowerCase().replace(/\s/g, '-')}>
+<section
+	id={header.toLowerCase().replace(/\s/g, '-')}
+	style="--vis-xy-label-fill-color: transparent"
+	{...props}
+>
 	<svelte:element this={level} class="flex flex-row"
 		>{header}
 		{#if $query?.isFetching}

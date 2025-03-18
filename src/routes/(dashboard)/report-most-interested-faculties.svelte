@@ -11,14 +11,14 @@
 		VisXYLabels
 	} from '@unovis/svelte';
 	import { FitMode, Direction, Orientation, StackedBar } from '@unovis/ts';
-	import ReportSection from './report-section.svelte';
+	import ReportSection from '$lib/components/report-section.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { interestedFaculties } from '$lib/mock';
 	import { SHOW_MOCK_DATA } from '$lib/constants';
 	import { api } from '$lib/client/api';
-	import Tooltip from './tooltip.svelte';
-	import Tabs from './tabs/tabs.svelte';
-	import TabContent from './tabs/tab-content.svelte';
+	import Tooltip from '$lib/components/tooltip.svelte';
+	import Tabs from '$lib/components/tabs/tabs.svelte';
+	import TabContent from '$lib/components/tabs/tab-content.svelte';
 
 	const sumInterests = (f: Faculty) => f.first_interest + f.second_interest + f.third_interest;
 
@@ -111,22 +111,6 @@
 </script>
 
 <svelte:window bind:innerWidth={clientWidth} />
-
-{#snippet interestRankingRow(rank: number, faculty: Faculty)}
-	<li class="list-row">
-		<div class="text-4xl tabular-nums opacity-50">
-			{rank}
-		</div>
-		<div class="flex flex-col">
-			<span class="text-lg font-semibold">
-				{faculty.faculty}
-			</span>
-			<span class="tabular-nums">
-				{formatNumber(sumInterests(faculty))} คน
-			</span>
-		</div>
-	</li>
-{/snippet}
 
 {#snippet rankingGraph(
 	sortedFacultiesBySum: Faculty[],

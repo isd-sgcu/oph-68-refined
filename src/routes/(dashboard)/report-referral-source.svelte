@@ -1,19 +1,15 @@
 <script lang="ts">
 	import { api } from '$lib/client/api';
-	import ContentWrapper from '$lib/components/content-wrapper.svelte';
 	import ReportSection from '$lib/components/report-section.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import type { KnownSource } from '$lib/types';
 	import { formatNumber, textJoin } from '$lib/formatter';
 	import {
 		VisXYContainer,
-		VisGroupedBar,
 		VisStackedBar,
 		VisAxis,
 		VisXYLabels,
 		VisTooltip,
-		VisSingleContainer,
-		VisDonut
 	} from '@unovis/svelte';
 	import { StackedBar } from '@unovis/ts';
 	import { app, SHOW_MOCK_DATA } from '$lib/constants';

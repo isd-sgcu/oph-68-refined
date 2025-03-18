@@ -5,6 +5,8 @@
 	import ReportMostInterestedFaculties from '$lib/components/report-most-interested-faculties.svelte';
 	import ReportRegistrationCount from '$lib/components/report-registration-count.svelte';
 	import ReportReferralSource from '$lib/components/report-referral-source.svelte';
+	import ReportStudentStatus from './report-student-status.svelte';
+	import ReportAges from './report-ages.svelte';
 </script>
 
 <svelte:head>
@@ -17,4 +19,6 @@
 	<ReportRegistrationCount />
 	<ReportMostInterestedFaculties />
 	<ReportReferralSource />
+	<ReportStudentStatus />
+	<ReportAges />
 </ContentWrapper>
