@@ -49,12 +49,8 @@
 <div class="join mb-4 flex justify-end gap-4">
 	<label class="swap btn btn-sm join-item">
 		<input type="checkbox" bind:checked={showPercentage} />
-		<div class="swap-on">
-			ร้อยละ
-		</div>
-		<div class="swap-off">
-			ตัวเลข
-		</div>
+		<div class="swap-on">ร้อยละ</div>
+		<div class="swap-off">ตัวเลข</div>
 	</label>
 
 	<button class="btn btn-sm" onclick={exportToCsv}>

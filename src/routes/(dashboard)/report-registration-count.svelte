@@ -1,11 +1,7 @@
 <script lang="ts">
 	import { api } from '$lib/client/api';
 	import { SHOW_MOCK_DATA } from '$lib/constants';
-	import {
-		formatMediumDateStyle,
-		formatNumber,
-		formatShortTimeStyle
-	} from '$lib/formatter';
+	import { formatMediumDateStyle, formatNumber, formatShortTimeStyle } from '$lib/formatter';
 	import { interestedFaculties } from '$lib/mock';
 	import type { Faculty } from '$lib/types';
 	import { createQuery, onlineManager } from '@tanstack/svelte-query';

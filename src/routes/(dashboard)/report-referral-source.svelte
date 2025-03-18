@@ -76,7 +76,10 @@
 	{#if data && top3sources}
 		<p>
 			ผู้ที่ลงทะเบียนได้รับข่าวสารมากที่สุดจาก {textJoin(
-				top3sources.map((s) => `${s.source} (${formatNumber(s.count)} คน; ${((s.count / totalSum) * 100).toFixed(2)}%)`),
+				top3sources.map(
+					(s) =>
+						`${s.source} (${formatNumber(s.count)} คน; ${((s.count / totalSum) * 100).toFixed(2)}%)`
+				)
 			)}
 		</p>
 

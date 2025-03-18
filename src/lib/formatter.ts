@@ -40,5 +40,5 @@ export function textJoin(arr: (string | undefined)[] | undefined) {
 }
 
 export function renamerFactory(renameDict: Record<string, string>) {
-	return (key: string) => key in renameDict ? renameDict[key] : key;
+	return (key: string) => (key in renameDict ? renameDict[key] : key);
 }
