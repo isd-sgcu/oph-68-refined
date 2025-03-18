@@ -53,7 +53,7 @@
 
 	const x = (d: KnownSource & { index: number }) => d.index;
 	const y = [(d: KnownSource) => d.count];
-	const tickFormat = (d, i: number) => renameSource((data || [])[i].source);
+	const tickFormat = $derived((d, i: number) => renameSource(data[i].source));
 
 	function exportToCsv() {
 		const csv = [['no', 'source', 'count'], ...data.map((d, i) => [i + 1, d.source, d.count])]
@@ -71,66 +71,68 @@
 </script>
 
 <ReportSection header="แหล่งข่าวสารเกี่ยวกับงาน" level="h2" query={sourcesQuery}>
-	<p>
-		ผุ้ที่ลงทะเบียนได้รับข่าวสารมากที่สุดจาก {textJoin(
-			top3sources.map((s) => `${s.source} (${formatNumber(s.count)} คน)`)
-		)}
-	</p>
+	{#if data && top3sources}
+		<p>
+			ผุ้ที่ลงทะเบียนได้รับข่าวสารมากที่สุดจาก {textJoin(
+				top3sources.map((s) => `${s.source} (${formatNumber(s.count)} คน)`)
+			)}
+		</p>
 
-	<div class="tabs tabs-box my-5 [&>.tab-content]:rounded-sm">
-		<label for="tab" class="tab">
-			<input type="radio" name="tab" id="tab" checked />
-			กราฟ
-		</label>
-		<div class="tab-content bg-base-100 p-6">
-			<VisXYContainer {data}>
-				<VisTooltip
-					triggers={{
-						[StackedBar.selectors.bar]: (d) => {
-							return `<span style="font-size: var(--text-xs);">จำนวน ${formatNumber(d.count)} คน</span>`;
-						}
-					}}
-				/>
-				<VisStackedBar {x} {y} />
-				<VisAxis type="x" {tickFormat} numTicks={data.length} label="แหล่งที่ทราบข่าวสาร" />
-				<VisAxis type="y" tickFormat={(d) => formatNumber(d)} />
-				<VisXYLabels
-					x={(d) => d.index}
-					y={(d) => d.count / 2}
-					label={(d) => formatNumber(d.count)}
-				/>
-			</VisXYContainer>
-		</div>
-
-		<label class="tab" for="tab2">
-			<input type="radio" name="tab" id="tab2" />
-			ตาราง
-		</label>
-		<div class="tab-content bg-base-100 p-6">
-			<div class="mb-4 flex justify-end">
-				<button class="btn btn-sm" onclick={exportToCsv}>
-					<DownloadIcon class="size-4" />
-					ดาวน์โหลดเป็น CSV</button
-				>
+		<div class="tabs tabs-box my-5 [&>.tab-content]:rounded-sm">
+			<label for="tab" class="tab">
+				<input type="radio" name="tab" id="tab" checked />
+				กราฟ
+			</label>
+			<div class="tab-content bg-base-100 p-6">
+				<VisXYContainer {data}>
+					<VisTooltip
+						triggers={{
+							[StackedBar.selectors.bar]: (d) => {
+								return `<span style="font-size: var(--text-xs);">จำนวน ${formatNumber(d.count)} คน</span>`;
+							}
+						}}
+					/>
+					<VisStackedBar {x} {y} />
+					<VisAxis type="x" {tickFormat} numTicks={data.length} label="แหล่งที่ทราบข่าวสาร" />
+					<VisAxis type="y" tickFormat={(d) => formatNumber(d)} />
+					<VisXYLabels
+						x={(d) => d.index}
+						y={(d) => d.count / 2}
+						label={(d) => formatNumber(d.count)}
+					/>
+				</VisXYContainer>
 			</div>
-			<table class="mt-0 table w-full">
-				<thead>
-					<tr>
-						<th>ลำดับ</th>
-						<th>แหล่งข่าวสาร</th>
-						<th class="text-end">จำนวนคน</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each data as source, i}
+
+			<label class="tab" for="tab2">
+				<input type="radio" name="tab" id="tab2" />
+				ตาราง
+			</label>
+			<div class="tab-content bg-base-100 p-6">
+				<div class="mb-4 flex justify-end">
+					<button class="btn btn-sm" onclick={exportToCsv}>
+						<DownloadIcon class="size-4" />
+						ดาวน์โหลดเป็น CSV</button
+					>
+				</div>
+				<table class="mt-0 table w-full">
+					<thead>
 						<tr>
-							<td>{i + 1}</td>
-							<td>{source.source}</td>
-							<td class="text-end">{formatNumber(source.count)}</td>
+							<th>ลำดับ</th>
+							<th>แหล่งข่าวสาร</th>
+							<th class="text-end">จำนวนคน</th>
 						</tr>
-					{/each}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{#each data as source, i}
+							<tr>
+								<td>{i + 1}</td>
+								<td>{source.source}</td>
+								<td class="text-end">{formatNumber(source.count)}</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			</div>
 		</div>
-	</div>
+	{/if}
 </ReportSection>
