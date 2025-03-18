@@ -145,7 +145,7 @@
 				[StackedBar.selectors.bar]: tooltipIndividual
 			}}
 		/>
-		<VisAxis type="x" label="จำนวนการลงทะเบียน{labels[column]}" />
+		<VisAxis type="x" tickFormat={(d) => formatNumber(d)} label="จำนวนการลงทะเบียน{labels[column]}" />
 		<VisAxis
 			type="y"
 			tickTextWidth={null}
@@ -214,7 +214,7 @@
 						label={(d) => formatNumber(d.third_interest)}
 					/>
 					<VisTooltip triggers={{ [StackedBar.selectors.bar]: tooltipTemplate }} />
-					<VisAxis type="x" label="จำนวนการลงทะเบียน" />
+					<VisAxis type="x" tickFormat={(d) => formatNumber(d)} label="จำนวนการลงทะเบียน" />
 					<VisAxis
 						type="y"
 						tickTextWidth={null}

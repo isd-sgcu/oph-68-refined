@@ -53,7 +53,6 @@
 
 	const x = (d: KnownSource & { index: number }) => d.index;
 	const y = [(d: KnownSource) => d.count];
-	const tickFormat = $derived((d, i: number) => renameSource(data[i].source));
 
 	function exportToCsv() {
 		const csv = [['no', 'source', 'count'], ...data.map((d, i) => [i + 1, d.source, d.count])]
@@ -93,7 +92,12 @@
 						}}
 					/>
 					<VisStackedBar {x} {y} />
-					<VisAxis type="x" {tickFormat} numTicks={data.length} label="แหล่งที่ทราบข่าวสาร" />
+					<VisAxis
+						type="x"
+						tickFormat={(d, i: number) => renameSource(data[i].source)}
+						numTicks={data.length}
+						label="แหล่งที่ทราบข่าวสาร"
+					/>
 					<VisAxis type="y" tickFormat={(d) => formatNumber(d)} />
 					<VisXYLabels
 						x={(d) => d.index}
