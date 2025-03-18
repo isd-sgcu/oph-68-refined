@@ -5,7 +5,7 @@
 
 	const {
 		header = '{header}',
-		level = 'h3',
+		level = 'h2',
 		query,
 		children
 	}: {
