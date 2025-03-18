@@ -1,10 +1,8 @@
-import { env } from '$env/dynamic/public';
-
 export const app = {
 	name: 'CU Openhouse 2025',
 	slugName: 'cuopenhouse25',
 	description: "A project to refine the CU Openhouse 2025 project's data",
-	apiBaseUrl: env.PUBLIC_API_BASE_URL ?? 'http://localhost:3000',
+	apiBaseUrl: "https://api.cuopenhouse2025.com/api/" ?? 'http://localhost:3000',
 	titleTemplate: (title: string) => `${title} | ${app.name}`
 };
 
