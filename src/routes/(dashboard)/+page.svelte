@@ -7,6 +7,7 @@
 	import ReportReferralSource from './report-referral-source.svelte';
 	import ReportStudentStatus from './report-student-status.svelte';
 	import ReportAges from './report-ages.svelte';
+	import Link from '$lib/components/link.svelte';
 </script>
 
 <svelte:head>
@@ -16,7 +17,7 @@
 <ContentWrapper>
 	{#snippet breadcrumbs()}
 		<li>
-			<a href="/" class="">ภาพรวม</a>
+			<Link href="/" class="">ภาพรวม</Link>
 		</li>
 	{/snippet}
 	<h1>ภาพรวมโดยทั่วไป</h1>

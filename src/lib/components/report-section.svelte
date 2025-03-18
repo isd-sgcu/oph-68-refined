@@ -4,6 +4,7 @@
 	import { fade } from 'svelte/transition';
 	import TriangleAlert from 'lucide-svelte/icons/triangle-alert';
 	import RotateCw from 'lucide-svelte/icons/rotate-cw';
+	import Link from './link.svelte';
 
 	const {
 		header = '{header}',
@@ -25,9 +26,9 @@
 	{...props}
 >
 	<svelte:element this={level} class="flex flex-row items-center">
-		<a href="#{header.toLowerCase().replace(/\s/g, '-')}" class="no-underline hover:underline">
+		<Link href="#{header.toLowerCase().replace(/\s/g, '-')}" class="no-underline hover:underline">
 			{header}
-		</a>
+		</Link>
 		{#if $query?.isFetching}
 			<span class="loading loading-dots loading-sm mx-2 leading-0" transition:fade></span>
 		{/if}</svelte:element

@@ -15,6 +15,7 @@
 	import { getContext } from 'svelte';
 	import { page } from '$app/state';
 	import { sidebar } from '$lib/sidebar';
+	import Link from './link.svelte';
 
 	const toggleId: string = getContext('sidebar-toggle-id') ?? 'sidebar-drawer';
 </script>
@@ -25,9 +26,9 @@
 	<div class="bg-base-200 flex min-h-full w-80 flex-col justify-between shadow-lg">
 		<div>
 			<div class="min-h-14 px-3 py-2">
-				<a href="/" class="btn btn-ghost">
+				<Link href="/" class="btn btn-ghost">
 					{app.name}
-				</a>
+				</Link>
 			</div>
 			<ul class="menu text-base-content min-h-full w-80 p-4">
 				{#each sidebar.childs as { title, links, phref }}

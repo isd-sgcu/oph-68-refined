@@ -3,6 +3,7 @@
 	import type { Snippet } from 'svelte';
 	import AppSidebarToggle from './app-sidebar-toggle.svelte';
 	import GithubIcon from 'lucide-svelte/icons/github';
+	import Link from './link.svelte';
 
 	const {
 		children,
@@ -22,7 +23,7 @@
 					{@render breadcrumbs()}
 				{:else}
 					<li>
-						<a href="/" class="">Home</a>
+						<Link href="/" class="">Home</Link>
 					</li>
 				{/if}
 			</ul>
