@@ -47,7 +47,6 @@
 <ReportSection
 	query={studentStatusQuery}
 	header="สถานภาพผู้เข้าร่วมงาน"
-	style="--vis-xy-label-fill-color: var(--vis-color0)"
 >
 	<p>
 		ผู้เข้าร่วมงานส่วนใหญ่เป็น{data[0].status} ({formatNumber(data[0].count)} คน; {(

@@ -2,7 +2,9 @@
 @import 'tailwindcss';
 
 @plugin "daisyui" {
-	themes: light --default;
+	themes: light --default,
+		dark --prefersdark;
+	/* themes: light --default; */
 }
 
 @plugin "tailwindcss-animate";
@@ -10,4 +12,31 @@
 
 @theme {
 	--font-sans: 'Anuphan Variable', sans-serif;
+}
+
+@layer components {
+	.unoviz-custom-style {
+		--vis-axis-grid-color: color-mix(in oklab, var(--color-base-content) 10%, transparent 100%);
+		--vis-axis-tick-color: color-mix(in oklab, var(--color-base-content) 50%, transparent 100%);
+		--vis-font-family: var(--font-sans);
+		--vis-font-size: var(--text-base);
+		--vis-label-fill-color: var(--color-base-content);
+		--vis-label-font-size: var(--text-xs);
+		--vis-line-color: var(--color-base-content);
+		--vis-tick-color: var(--color-base-content);
+		--vis-tooltip-background-color: color-mix(in oklab, var(--color-base-100) 90%, transparent 50%);
+		--vis-tooltip-border-color: var(--color-base-300);
+		--vis-tooltip-text-color: var(--color-base-content);
+		--vis-tooltip-font-size: var(--text-xs);
+		--vis-tooltip-border-radius: var(--radius-box);
+		--vis-tooltip-padding: 0.5rem;
+		--vis-tooltip-shadow-color: var(--color-base-100);
+		--vis-tooltip-backdrop-filter: blur(8px);
+		--vis-xy-label-fill-color: var(--color-base-100);
+		--vis-xy-label-fill-opacity: 0.8;
+		--vis-xy-label-text-color-light: var(--color-base-content);
+		--vis-xy-label-stroke-color: var(--color-base-content);
+		--vis-xy-label-stroke-width: 0.5px;
+		--vis-xy-label-hover-stroke-width: 2px;
+	}
 }

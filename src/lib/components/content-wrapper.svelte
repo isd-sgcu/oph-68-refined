@@ -31,7 +31,7 @@
 	</div>
 </div>
 <main
-	class="prose dark:prose-invert prose-neutral prose-p:max-w-prose m-2 mx-auto max-w-5xl rounded-2xl p-8"
+	class="unoviz-custom-style prose dark:prose-invert prose-neutral prose-p:max-w-prose m-2 mx-auto max-w-5xl rounded-2xl p-8"
 >
 	{@render children?.()}
 </main>

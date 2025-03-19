@@ -64,11 +64,7 @@
 	}
 </script>
 
-<ReportSection
-	query={agesQuery}
-	header="อายุผู้เข้าร่วมงาน"
-	style="--vis-xy-label-fill-color: var(--vis-color0);"
->
+<ReportSection query={agesQuery} header="อายุผู้เข้าร่วมงาน">
 	<p>
 		ผู้เข้าร่วมงานมีอายุเฉลี่ยประมาณ {averageAge().toFixed(1)} ปี อายุที่มางานมากที่สุดคือ {modeAge()}
 		ปี และมีมัธยฐานประมาณ {medianAge()} ปี โดยมีความแปรปรวนประมาณ {standardDeviation().toFixed(1)}

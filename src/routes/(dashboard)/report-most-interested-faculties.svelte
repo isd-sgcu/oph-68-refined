@@ -83,7 +83,7 @@
 	const tickFormat = (d, i: number) => sortedFacultiesBySum[i].faculty;
 
 	function tooltipTemplate(d: Faculty): string {
-		const title = `<div style="color: #666; font-weight: bold;">${d.faculty}</div>`;
+		const title = `<div style="font-weight: bold;">${d.faculty}</div>`;
 		const total = `<div style="font-size: 12px; font-weight: bold;">รวม ${formatNumber(sumInterests(d))} คน</div>`;
 		const stats = chartLabels.map((l) => l.tooltip(d)).join('<br/>');
 		return `<div style="font-size: 12px">${title}${stats}${total}</div>`;

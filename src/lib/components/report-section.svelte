@@ -20,11 +20,7 @@
 	} = $props();
 </script>
 
-<section
-	id={header.toLowerCase().replace(/\s/g, '-')}
-	style="--vis-xy-label-fill-color: transparent"
-	{...props}
->
+<section id={header.toLowerCase().replace(/\s/g, '-')} {...props}>
 	<svelte:element this={level} class="flex flex-row items-center">
 		<Link href="#{header.toLowerCase().replace(/\s/g, '-')}" class="no-underline hover:underline">
 			{header}
