@@ -33,15 +33,15 @@
 			<ul class="menu text-base-content min-h-full w-80 p-4">
 				{#each sidebar.childs as { title, links, phref }}
 					<li>
-						<a href={phref} class={page.url.pathname === phref ? 'bg-base-300' : ''}>
+						<Link href={phref} class={page.url.pathname === phref ? 'bg-base-300' : ''}>
 							{title}
-						</a>
+						</Link>
 						<ul>
 							{#each links as { title, href }}
 								<li>
-									<a {href}>
+									<Link {href}>
 										{title}
-									</a>
+									</Link>
 								</li>
 							{/each}
 						</ul>
