@@ -44,10 +44,7 @@
 	}
 </script>
 
-<ReportSection
-	query={studentStatusQuery}
-	header="สถานภาพผู้เข้าร่วมงาน"
->
+<ReportSection query={studentStatusQuery} header="สถานภาพผู้เข้าร่วมงาน">
 	<p>
 		ผู้เข้าร่วมงานส่วนใหญ่เป็น{data[0].status} ({formatNumber(data[0].count)} คน; {(
 			(data[0].count / totalSum) *
