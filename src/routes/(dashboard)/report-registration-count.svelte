@@ -5,6 +5,7 @@
 	import { interestedFaculties } from '$lib/mock';
 	import type { Faculty } from '$lib/types';
 	import { createQuery, onlineManager } from '@tanstack/svelte-query';
+	import AnimatedCounter from '$lib/components/animated-counter.svelte';
 	import TicketCheck from 'lucide-svelte/icons/ticket-check';
 
 	const interestedFacultiesQuery = createQuery({
@@ -38,7 +39,7 @@
 			{/if}
 		</div>
 		<div class="stat-value">
-			{formatNumber(currentRegistCount || 0)} คน
+			<AnimatedCounter value={currentRegistCount} />
 		</div>
 		<div class="stat-desc">
 			ข้อมูล ณ {formatMediumDateStyle($interestedFacultiesQuery.dataUpdatedAt)}
