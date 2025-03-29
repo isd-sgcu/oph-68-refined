@@ -27,25 +27,23 @@
 	);
 </script>
 
-<div class="stats bg-base-200 border-base-300 border">
-	<div class="stat">
-		<div class="stat-figure text-secondary">
-			<TicketCheck class="size-8" />
-		</div>
-		<div class="stat-title">
-			จำนวนการลงทะเบียนปัจจุบัน
-			{#if $interestedFacultiesQuery.isFetching}
-				<span class="loading loading-dots loading-sm mx-1"></span>
-			{/if}
-		</div>
-		<div class="stat-value">
-			<AnimatedCounter value={currentRegistCount} />
-		</div>
-		<div class="stat-desc">
-			ข้อมูล ณ {formatMediumDateStyle($interestedFacultiesQuery.dataUpdatedAt)}
-			{formatShortTimeStyle($interestedFacultiesQuery.dataUpdatedAt, {
-				timeStyle: 'medium'
-			})} น.
-		</div>
+<div class="stat">
+	<div class="stat-figure text-secondary">
+		<TicketCheck class="size-8" />
+	</div>
+	<div class="stat-title">
+		จำนวนการลงทะเบียนปัจจุบัน
+		{#if $interestedFacultiesQuery.isFetching}
+			<span class="loading loading-dots loading-sm mx-1"></span>
+		{/if}
+	</div>
+	<div class="stat-value">
+		<AnimatedCounter value={currentRegistCount} />
+	</div>
+	<div class="stat-desc">
+		ข้อมูล ณ {formatMediumDateStyle($interestedFacultiesQuery.dataUpdatedAt)}
+		{formatShortTimeStyle($interestedFacultiesQuery.dataUpdatedAt, {
+			timeStyle: 'medium'
+		})} น.
 	</div>
 </div>

@@ -21,10 +21,13 @@
 			<Link href="/" class="">ภาพรวม</Link>
 		</li>
 	{/snippet}
-	<h1>ภาพรวมโดยทั่วไป</h1>
+	<h1>ภาพรวม</h1>
 
-	<ReportRegistrationCount />
-	<ReportAttendedUsers /> <!-- Add the new component here -->
+	<div class="stats stats-vertical lg:stats-horizontal bg-base-200 border-base-300 border shadow">
+		<ReportRegistrationCount />
+		<ReportAttendedUsers />
+	</div>
+
 	<ReportMostInterestedFaculties />
 	<ReportReferralSource />
 	<ReportStudentStatus />

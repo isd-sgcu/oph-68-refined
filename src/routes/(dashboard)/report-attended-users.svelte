@@ -33,25 +33,23 @@
 	);
 </script>
 
-<div class="stats bg-base-200 border-base-300 border my-4">
-	<div class="stat">
-		<div class="stat-figure text-secondary">
-			<UsersRound class="size-8" />
-		</div>
-		<div class="stat-title">
-			ผู้ลงทะเบียนที่เข้างานแล้ว
-			{#if $attendedUsersQuery.isFetching}
-				<span class="loading loading-dots loading-sm mx-1"></span>
-			{/if}
-		</div>
-		<div class="stat-value">
-			<AnimatedCounter value={attendedCount} />
-		</div>
-		<div class="stat-desc">
-			ข้อมูล ณ {formatMediumDateStyle($attendedUsersQuery.dataUpdatedAt)}
-			{formatShortTimeStyle($attendedUsersQuery.dataUpdatedAt, {
-				timeStyle: 'medium'
-			})} น.
-		</div>
+<div class="stat">
+	<div class="stat-figure text-secondary">
+		<UsersRound class="size-8" />
+	</div>
+	<div class="stat-title">
+		ผู้ลงทะเบียนที่เข้างานแล้ว
+		{#if $attendedUsersQuery.isFetching}
+			<span class="loading loading-dots loading-sm mx-1"></span>
+		{/if}
+	</div>
+	<div class="stat-value">
+		<AnimatedCounter value={attendedCount} />
+	</div>
+	<div class="stat-desc">
+		ข้อมูล ณ {formatMediumDateStyle($attendedUsersQuery.dataUpdatedAt)}
+		{formatShortTimeStyle($attendedUsersQuery.dataUpdatedAt, {
+			timeStyle: 'medium'
+		})} น.
 	</div>
 </div>
