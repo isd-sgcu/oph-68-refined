@@ -4,6 +4,7 @@
 	import ContentWrapper from '$lib/components/content-wrapper.svelte';
 	import ReportMostInterestedFaculties from './report-most-interested-faculties.svelte';
 	import ReportRegistrationCount from './report-registration-count.svelte';
+	import ReportAttendedUsers from './report-attended-users.svelte'; // Import the new component
 	import ReportReferralSource from './report-referral-source.svelte';
 	import ReportStudentStatus from './report-student-status.svelte';
 	import ReportAges from './report-ages.svelte';
@@ -23,6 +24,7 @@
 	<h1>ภาพรวมโดยทั่วไป</h1>
 
 	<ReportRegistrationCount />
+	<ReportAttendedUsers /> <!-- Add the new component here -->
 	<ReportMostInterestedFaculties />
 	<ReportReferralSource />
 	<ReportStudentStatus />
